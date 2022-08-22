@@ -1,0 +1,362 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from math import pi,cos,sin,sqrt
+
+n = 150000
+m = 10000
+dt = .002
+
+#merc
+merc_t = np.zeros(n,float)
+merc_x = np.zeros(n,float)
+merc_y = np.zeros(n,float) 
+merc_r = np.zeros(n,float)
+merc_v = np.zeros(n,float)
+merc_vx = np.zeros(n,float)
+merc_vy = np.zeros(n,float)
+merc_T = np.zeros(m,float) # to store the period m times
+merc_Minoraxis = np.zeros(m,float)
+
+#venus
+venus_t = np.zeros(n,float)
+venus_x = np.zeros(n,float)
+venus_y = np.zeros(n,float) 
+venus_r = np.zeros(n,float)
+venus_v = np.zeros(n,float)
+venus_vx = np.zeros(n,float)
+venus_vy = np.zeros(n,float)
+venus_T = np.zeros(m,float) # to store the period m times
+venus_Minoraxis = np.zeros(m,float)
+#Earth
+earth_t = np.zeros(n,float)
+earth_x = np.zeros(n,float)
+earth_y = np.zeros(n,float) 
+earth_r = np.zeros(n,float)
+earth_v = np.zeros(n,float)
+earth_vx = np.zeros(n,float)
+earth_vy = np.zeros(n,float)
+earth_T = np.zeros(m,float) # to store the period m times
+earth_Minoraxis = np.zeros(m,float)
+#mars
+mars_t = np.zeros(n,float)
+mars_x = np.zeros(n,float)
+mars_y = np.zeros(n,float) 
+mars_r = np.zeros(n,float)
+mars_v = np.zeros(n,float)
+mars_vx = np.zeros(n,float)
+mars_vy = np.zeros(n,float)
+mars_T = np.zeros(m,float) # to store the period m times
+mars_Minoraxis = np.zeros(m,float)
+#jupiter
+jupiter_t = np.zeros(n,float)
+jupiter_x = np.zeros(n,float)
+jupiter_y = np.zeros(n,float) 
+jupiter_r = np.zeros(n,float)
+jupiter_v = np.zeros(n,float)
+jupiter_vx = np.zeros(n,float)
+jupiter_vy = np.zeros(n,float)
+jupiter_T = np.zeros(m,float) # to store the period m times
+jupiter_Minoraxis = np.zeros(m,float)
+#saturn
+saturn_t = np.zeros(n,float)
+saturn_x = np.zeros(n,float)
+saturn_y = np.zeros(n,float) 
+saturn_r = np.zeros(n,float)
+saturn_v = np.zeros(n,float)
+saturn_vx = np.zeros(n,float)
+saturn_vy = np.zeros(n,float)
+saturn_T = np.zeros(m,float) # to store the period m times
+saturn_Minoraxis = np.zeros(m,float)
+#uranus
+uranus_t = np.zeros(n,float)
+uranus_x = np.zeros(n,float)
+uranus_y = np.zeros(n,float) 
+uranus_r = np.zeros(n,float)
+uranus_v = np.zeros(n,float)
+uranus_vx = np.zeros(n,float)
+uranus_vy = np.zeros(n,float)
+uranus_T = np.zeros(m,float) # to store the period m times
+uranus_Minoraxis = np.zeros(m,float)
+#neptune
+neptune_t = np.zeros(n,float)
+neptune_x = np.zeros(n,float)
+neptune_y = np.zeros(n,float) 
+neptune_r = np.zeros(n,float)
+neptune_v = np.zeros(n,float)
+neptune_vx = np.zeros(n,float)
+neptune_vy = np.zeros(n,float)
+neptune_T = np.zeros(m,float) # to store the period m times
+neptune_Minoraxis = np.zeros(m,float)
+#pluto
+pluto_t = np.zeros(n,float)
+pluto_x = np.zeros(n,float)
+pluto_y = np.zeros(n,float) 
+pluto_r = np.zeros(n,float)
+pluto_v = np.zeros(n,float)
+pluto_vx = np.zeros(n,float)
+pluto_vy = np.zeros(n,float)
+pluto_T = np.zeros(m,float) # to store the period m times
+pluto_Minoraxis = np.zeros(m,float)
+
+#eccentricity of planets
+emurcury = .206
+ev= 0.007 
+ee = 0.017 
+emars = 0.093
+ej = 0.048
+es = 0.056
+eu= 0.046
+en = 0.010
+ep = 0.248
+
+
+#mass of planets
+Mmercury= 2.4 *10**23
+Mv= 4.9 *10**24
+Me = 6.0 * 10**24#mass of Earth
+Mmars = 6.6 *10**24
+Mj = 1.9 *10**27
+Msun = 2.0 * 10**30#mass of Sun 
+Msat = 5.7 * 10**26
+Mu = 8.8 * 10**25
+Mn = 1.03 * 10**26
+Mp = 6.0 *10**24
+G = 6.67 * 10**-11#gravitaitonal constant
+
+#merc
+merc_y[0] = 0
+merc_x[0] = .3075
+merc_r[0] = .3075
+merc_vx[0] = 0
+merc_vy[0] = 12.433#velocity is 2*pi*r/yr 
+merc_numb_rev = 0
+merc_minoraxis_index = 0
+#venus
+venus_y[0] = 0
+venus_x[0] = .7184
+venus_r[0] = .7184
+venus_vx[0] = 0
+venus_vy[0] = 7.433#velocity is 2*pi*r/yr 
+venus_numb_rev = 0
+venus_minoraxis_index = 0
+#earth
+earth_y[0] = 0
+earth_x[0] = .983
+earth_r[0] = .983
+earth_vx[0] = 0
+earth_vy[0] = 6.385 #velocity is 2*pi*r/yr 
+earth_numb_rev = 0
+earth_minoraxis_index = 0
+#mars
+mars_y[0] = 0
+mars_x[0] = 1.381
+mars_r[0] = 1.381
+mars_vx[0] = 0
+mars_vy[0] = 5.586#velocity is 2*pi*r/yr 
+iterations = 0
+mars_numb_rev = 0
+mars_minoraxis_index = 0
+#jupiter
+jupiter_y[0] = 0
+jupiter_x[0] = 4.952
+jupiter_r[0] = 4.952
+jupiter_vx[0] = 0
+jupiter_vy[0] = 2.891#velocity is 2*pi*r/yr 
+iterations = 0
+jupiter_numb_rev = 0
+jupiter_minoraxis_index = 0
+#saturn
+saturn_y[0] = 0
+saturn_x[0] = 9.021
+saturn_r[0] = 9.021
+saturn_vx[0] = 0
+saturn_vy[0] = 2.1467#velocity is 2*pi*r/yr 
+iterations = 0
+saturn_numb_rev = 0
+saturn_minoraxis_index = 0
+#uranus
+uranus_y[0] = 0
+uranus_x[0] = 18.286
+uranus_r[0] = 18.286
+uranus_vx[0] = 0
+uranus_vy[0] = 1.5026#velocity is 2*pi*r/yr 
+iterations = 0
+uranus_numb_rev = 0
+uranus_minoraxis_index = 0
+#neptune
+neptune_y[0] = 0
+neptune_x[0] = 29.811
+neptune_r[0] = 29.811
+neptune_vx[0] = 0
+neptune_vy[0] = 2*pi*30.06/164.79#velocity is 2*pi*r/yr 
+iterations = 0
+neptune_numb_rev = 0
+neptune_minoraxis_index = 0
+#pluto
+pluto_y[0] = 0
+pluto_x[0] = 29.658
+pluto_r[0] = 29.658
+pluto_vx[0] = 0
+pluto_vy[0] = 1.2884#velocity is 2*pi*r/yr 
+iterations = 0
+pluto_numb_rev = 0
+pluto_minoraxis_index = 0
+
+##section 4.1
+for i in range(n-1):
+    #Mercury Calc
+    merc_r[i] = sqrt(merc_x[i]**2+merc_y[i]**2)
+    merc_vx[i+1] = merc_vx[i] - 4*pi**2*merc_x[i]*dt/merc_r[i]**3
+    merc_vy[i+1] = merc_vy[i] - 4*pi**2*merc_y[i]*dt/merc_r[i]**3
+    merc_v[i] = sqrt(merc_vx[i]**2 + merc_vy[i]**2)
+    merc_x[i+1] = merc_x[i] + merc_vx[i+1]*dt
+    merc_y[i+1] = merc_y[i] + merc_vy[i+1]*dt
+    merc_t[i+1] = merc_t[i] + 1
+    if merc_y[i]<0 and merc_y[i+1]>0:
+        merc_T[merc_numb_rev] = merc_t[i]
+        merc_numb_rev += 1
+    elif merc_x[i]>0 and merc_x[i+1]<0:
+        merc_Minoraxis[merc_minoraxis_index] = merc_y[i]
+        merc_minoraxis_index += 1
+
+    #Venus Calc
+    venus_r[i] = sqrt(venus_x[i]**2+venus_y[i]**2)
+    venus_vx[i+1] = venus_vx[i] - 4*pi**2*venus_x[i]*dt/venus_r[i]**3
+    venus_vy[i+1] = venus_vy[i] - 4*pi**2*venus_y[i]*dt/venus_r[i]**3
+    venus_v[i] = sqrt(venus_vx[i]**2 + venus_vy[i]**2)
+    venus_x[i+1] = venus_x[i] + venus_vx[i+1]*dt
+    venus_y[i+1] = venus_y[i] + venus_vy[i+1]*dt
+    venus_t[i+1] = venus_t[i] + 1
+    if venus_y[i]<0 and venus_y[i+1]>0:
+        venus_T[venus_numb_rev] = venus_t[i]
+        venus_numb_rev += 1
+    elif venus_x[i]>0 and venus_x[i+1]<0:
+        venus_Minoraxis[venus_minoraxis_index] = venus_y[i]
+        venus_minoraxis_index += 1
+
+    #Earth Calc
+    earth_r[i] = sqrt(earth_x[i]**2+earth_y[i]**2)
+    earth_vx[i+1] = earth_vx[i] - 4*pi**2*earth_x[i]*dt/earth_r[i]**3
+    earth_vy[i+1] = earth_vy[i] - 4*pi**2*earth_y[i]*dt/earth_r[i]**3
+    earth_v[i] = sqrt(earth_vx[i]**2 + earth_vy[i]**2)
+    earth_x[i+1] = earth_x[i] + earth_vx[i+1]*dt
+    earth_y[i+1] = earth_y[i] + earth_vy[i+1]*dt
+    earth_t[i+1] = earth_t[i] + 1
+    if earth_y[i]<0 and earth_y[i+1]>0:
+        earth_T[earth_numb_rev] = earth_t[i]
+        earth_numb_rev += 1
+    elif earth_x[i]>0 and earth_x[i+1]<0:
+        earth_Minoraxis[earth_minoraxis_index] = earth_y[i]
+        earth_minoraxis_index += 1
+
+    #Mars Calc
+    mars_r[i] = sqrt(mars_x[i]**2+mars_y[i]**2)
+    mars_vx[i+1] = mars_vx[i] - 4*pi**2*mars_x[i]*dt/mars_r[i]**3
+    mars_vy[i+1] = mars_vy[i] - 4*pi**2*mars_y[i]*dt/mars_r[i]**3
+    mars_v[i] = sqrt(mars_vx[i]**2 + mars_vy[i]**2)
+    mars_x[i+1] = mars_x[i] + mars_vx[i+1]*dt
+    mars_y[i+1] = mars_y[i] + mars_vy[i+1]*dt
+    mars_t[i+1] = mars_t[i] + 1
+    if mars_y[i]<0 and mars_y[i+1]>0:
+        mars_T[mars_numb_rev] = mars_t[i]
+        mars_numb_rev += 1
+    elif mars_x[i]>0 and mars_x[i+1]<0:
+        mars_Minoraxis[mars_minoraxis_index] = mars_y[i]
+        mars_minoraxis_index += 1
+
+    #Jupiter Calc
+    jupiter_r[i] = sqrt(jupiter_x[i]**2+jupiter_y[i]**2)
+    jupiter_vx[i+1] = jupiter_vx[i] - 4*pi**2*jupiter_x[i]*dt/jupiter_r[i]**3
+    jupiter_vy[i+1] = jupiter_vy[i] - 4*pi**2*jupiter_y[i]*dt/jupiter_r[i]**3
+    jupiter_v[i] = sqrt(jupiter_vx[i]**2 + jupiter_vy[i]**2)
+    jupiter_x[i+1] = jupiter_x[i] + jupiter_vx[i+1]*dt
+    jupiter_y[i+1] = jupiter_y[i] + jupiter_vy[i+1]*dt
+    jupiter_t[i+1] = jupiter_t[i] + 1
+    if jupiter_y[i]<0 and jupiter_y[i+1]>0:
+        jupiter_T[pluto_numb_rev] = jupiter_t[i]
+        jupiter_numb_rev += 1
+    elif jupiter_x[i]>0 and jupiter_x[i+1]<0:
+        jupiter_Minoraxis[jupiter_minoraxis_index] = jupiter_y[i]
+        jupiter_minoraxis_index += 1
+    
+    #Saturn Calc
+    saturn_r[i] = sqrt(saturn_x[i]**2+saturn_y[i]**2)
+    saturn_vx[i+1] = saturn_vx[i] - 4*pi**2*saturn_x[i]*dt/saturn_r[i]**3
+    saturn_vy[i+1] = saturn_vy[i] - 4*pi**2*saturn_y[i]*dt/saturn_r[i]**3
+    saturn_v[i] = sqrt(saturn_vx[i]**2 + saturn_vy[i]**2)
+    saturn_x[i+1] = saturn_x[i] + saturn_vx[i+1]*dt
+    saturn_y[i+1] = saturn_y[i] + saturn_vy[i+1]*dt
+    saturn_t[i+1] = saturn_t[i] + 1
+    if saturn_y[i]<0 and saturn_y[i+1]>0:
+        saturn_T[saturn_numb_rev] = saturn_t[i]
+        saturn_numb_rev += 1
+    elif saturn_x[i]>0 and saturn_x[i+1]<0:
+        saturn_Minoraxis[saturn_minoraxis_index] = saturn_y[i]
+        saturn_minoraxis_index += 1
+    #Uranus Calc
+    uranus_r[i] = sqrt(uranus_x[i]**2+uranus_y[i]**2)
+    uranus_vx[i+1] = uranus_vx[i] - 4*pi**2*uranus_x[i]*dt/uranus_r[i]**3
+    uranus_vy[i+1] = uranus_vy[i] - 4*pi**2*uranus_y[i]*dt/uranus_r[i]**3
+    uranus_v[i] = sqrt(uranus_vx[i]**2 + uranus_vy[i]**2)
+    uranus_x[i+1] = uranus_x[i] + uranus_vx[i+1]*dt
+    uranus_y[i+1] = uranus_y[i] + uranus_vy[i+1]*dt
+    uranus_t[i+1] = uranus_t[i] + 1
+    if uranus_y[i]<0 and uranus_y[i+1]>0:
+        uranus_T[uranus_numb_rev] = uranus_t[i]
+        uranus_numb_rev += 1
+    elif uranus_x[i]>0 and uranus_x[i+1]<0:
+        uranus_Minoraxis[uranus_minoraxis_index] = uranus_y[i]
+        uranus_minoraxis_index += 1
+
+    #Neptune Calc    
+    neptune_r[i] = sqrt(neptune_x[i]**2+neptune_y[i]**2)
+    neptune_vx[i+1] = neptune_vx[i] - 4*pi**2*neptune_x[i]*dt/neptune_r[i]**3
+    neptune_vy[i+1] = neptune_vy[i] - 4*pi**2*neptune_y[i]*dt/neptune_r[i]**3
+    neptune_v[i] = sqrt(neptune_vx[i]**2 + neptune_vy[i]**2)
+    neptune_x[i+1] = neptune_x[i] + neptune_vx[i+1]*dt
+    neptune_y[i+1] = neptune_y[i] + neptune_vy[i+1]*dt
+    neptune_t[i+1] = neptune_t[i] + 1
+    if neptune_y[i]<0 and neptune_y[i+1]>0:
+        neptune_T[neptune_numb_rev] = neptune_t[i]
+        neptune_numb_rev += 1
+    elif neptune_x[i]>0 and neptune_x[i+1]<0:
+        neptune_Minoraxis[neptune_minoraxis_index] = neptune_y[i]
+        neptune_minoraxis_index += 1
+
+    #Pluto Calc
+    pluto_r[i] = sqrt(pluto_x[i]**2+pluto_y[i]**2)
+    pluto_vx[i+1] = pluto_vx[i] - 4*pi**2*pluto_x[i]*dt/pluto_r[i]**3
+    pluto_vy[i+1] = pluto_vy[i] - 4*pi**2*pluto_y[i]*dt/pluto_r[i]**3
+    pluto_v[i] = sqrt(pluto_vx[i]**2 + pluto_vy[i]**2)
+    pluto_x[i+1] = pluto_x[i] + pluto_vx[i+1]*dt
+    pluto_y[i+1] = pluto_y[i] + pluto_vy[i+1]*dt
+    pluto_t[i+1] = pluto_t[i] + 1
+    iterations += i
+    if pluto_y[i]<0 and pluto_y[i+1]>0:
+        pluto_T[pluto_numb_rev] = pluto_t[i]
+        pluto_numb_rev += 1 
+    elif pluto_x[i]>0 and pluto_x[i+1]<0:
+        pluto_Minoraxis[pluto_minoraxis_index] = pluto_y[i]
+        pluto_minoraxis_index += 1
+    
+
+plt.figure()
+# plt.subplot(231)
+# plt.plot(t,x)
+# plt.title("x versus t")
+# plt.subplot(232)
+# plt.plot(t,y)
+# plt.title("y versus t")
+# plt.subplot(233)
+# plt.plot(x,y)
+plt.plot(merc_x,merc_y, color ='gray', linewidth=.5)
+plt.plot(venus_x,venus_y, color = 'tan', linewidth=.5 )
+plt.plot(earth_x,earth_y, color = 'green', linewidth=.5)
+plt.plot(mars_x,mars_y, color= 'red', linewidth=.5)
+plt.plot(jupiter_x,jupiter_y,color = 'purple', linewidth=1)
+plt.plot(saturn_x,saturn_y,color = 'yellow', linewidth=1)
+plt.plot(uranus_x,uranus_y,color = 'cyan', linewidth=1)
+plt.plot(neptune_x,neptune_y,color = 'blue')
+#plt.plot(pluto_x,pluto_y,color = 'magenta')
+plt.title("Planetary Orbits (Y vs X)")
+plt.show()
